@@ -8,10 +8,9 @@ import { RootState } from 'redux/store';
 import { Body2, Body2Bold, Strong } from 'styles/typography';
 
 const WalletBox = styled.div`
-  width: 308px;
+  ${({ theme }) => theme.backgroundStyle.shade000};
+  min-width: 308px;
   padding: 24px;
-  border-radius: 12px;
-  background-color: ${({ theme }) => theme.colors.shade000};
 `;
 
 const Divider = styled.div`
@@ -48,6 +47,9 @@ interface BalanceProps {
   balance: number;
 }
 const Balance = ({ coin, balance }: BalanceProps) => {
+  const numberWithCommas = balance
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return (
     <div>
       <CoinBadge>
@@ -57,7 +59,7 @@ const Balance = ({ coin, balance }: BalanceProps) => {
         <Body2> {coin.name}</Body2>
       </CoinBadge>
       <Body2Bold>
-        {balance} {coin.unit}
+        {numberWithCommas} {coin.unit}
       </Body2Bold>
     </div>
   );
