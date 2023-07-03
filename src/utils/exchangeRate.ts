@@ -1,4 +1,4 @@
-import { CoinType } from '../@types';
+import { CoinExchangeProps, CoinType } from '../@types';
 
 export type ExchangeRateType = {
   [from in CoinType]: Partial<Record<CoinType, number>>;
@@ -27,12 +27,6 @@ const EXCHANGE_RATES: ExchangeRateType = {
     solana: BNB_TO_SOL,
   },
 };
-
-interface CoinExchangeProps {
-  fromCoin: CoinType;
-  toCoin: CoinType;
-  amount: number;
-}
 
 export const calculateCoinExchange = ({
   fromCoin,

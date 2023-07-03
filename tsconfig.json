@@ -22,6 +22,8 @@
       "components/*": ["components/*"],
       "layouts/*": ["layouts/*"],
       "pages/*": ["pages/*"],
+      "redux/*": ["redux/*"],
+      "routes/*": ["routes/*"],
       "styles/*": ["styles/*"],
       "theme/*": ["theme/*"],
       "utils/*": ["utils/*"]
