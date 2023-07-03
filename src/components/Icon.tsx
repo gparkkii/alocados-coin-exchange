@@ -18,24 +18,26 @@ type IconType =
 
 interface IconProps {
   name: IconType;
+  width?: string | number;
+  height?: string | number;
 }
 
-const Icon = ({ name }: IconProps) => {
+const Icon = ({ name, width, height }: IconProps) => {
   switch (name) {
     case 'arrowDown':
-      return <ArrowDown />;
+      return <ArrowDown width={width} height={height} />;
     case 'chevronDown':
-      return <ChevronDown />;
+      return <ChevronDown width={width} height={height} />;
     case 'chevronRight':
-      return <ChevronRight />;
+      return <ChevronRight width={width} height={height} />;
     case 'swap':
-      return <Swap />;
+      return <Swap width={width} height={height} />;
     case 'ethereum':
-      return <Ethereum />;
+      return <Ethereum width={width} height={height} />;
     case 'solana':
-      return <Solana />;
+      return <Solana width={width} height={height} />;
     case 'bnb':
-      return <BnB />;
+      return <BnB width={width} height={height} />;
     default:
       return null;
   }

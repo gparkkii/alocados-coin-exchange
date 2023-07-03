@@ -1,10 +1,16 @@
 export type CoinType = 'ethereum' | 'solana' | 'bnb';
 
-export interface CoinExchangeProps {
+export type CoinInfoType = {
+  icon: CoinType;
+  name: string;
+  unit: string;
+};
+
+export type CoinExchangeProps = {
   fromCoin: CoinType;
   toCoin: CoinType;
   amount: number;
-}
+};
 
 export type ExchangeHistoryItemType = { type: CoinType; amount: number };
 export type ExchangeHistoryType = {

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CoinExchangeProps, CoinType, ExchangeHistoryType } from '../@types';
-import { calculateCoinExchange } from '../utils/exchangeRate';
+import { CoinExchangeProps, CoinType, ExchangeHistoryType } from '@types';
+import { calculateCoinExchange } from 'utils/exchangeRate';
 
 export type WalletState = {
   [key in CoinType]: number;

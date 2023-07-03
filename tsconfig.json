@@ -20,6 +20,7 @@
       "types/*": ["@types/*"],
       "assets/*": ["assets/*"],
       "components/*": ["components/*"],
+      "constants/*": ["constants/*"],
       "layouts/*": ["layouts/*"],
       "pages/*": ["pages/*"],
       "redux/*": ["redux/*"],

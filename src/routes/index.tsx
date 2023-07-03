@@ -13,8 +13,10 @@ const Loadable = <P extends object>(Component: React.ComponentType<P>) => {
   return LoadableComponent;
 };
 
-const ExchangePage = Loadable(lazy(() => import('pages/ExchangePage')));
-const HistoryPage = Loadable(lazy(() => import('pages/HistoryPage')));
+const ExchangePage = Loadable(
+  lazy(() => import('pages/exchange/ExchangePage')),
+);
+const HistoryPage = Loadable(lazy(() => import('pages/history/HistoryPage')));
 
 export const router = createBrowserRouter([
   {
