@@ -1,8 +1,8 @@
 import { styled } from 'styled-components';
-import { ColorType } from '../theme/color';
+import { ColorType } from 'theme/color';
 
 interface TypographyStyleProps {
-  textcolor?: ColorType;
+  $textcolor?: ColorType;
 }
 
 export const Title1 = styled.h3<TypographyStyleProps>`
@@ -10,8 +10,8 @@ export const Title1 = styled.h3<TypographyStyleProps>`
   font-family: Pretendard;
   font-weight: 700;
   line-height: 32px;
-  color: ${({ theme, textcolor }) =>
-    textcolor ? theme.colors[textcolor] : theme.colors.shade900};
+  color: ${({ theme, $textcolor }) =>
+    $textcolor ? theme.colors[$textcolor] : theme.colors.shade900};
 `;
 
 export const Strong = styled.strong<TypographyStyleProps>`
@@ -21,8 +21,8 @@ export const Strong = styled.strong<TypographyStyleProps>`
   line-height: 135%;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: ${({ theme, textcolor }) =>
-    textcolor ? theme.colors[textcolor] : theme.colors.shade900};
+  color: ${({ theme, $textcolor }) =>
+    $textcolor ? theme.colors[$textcolor] : theme.colors.shade900};
 `;
 
 export const Body2 = styled.p<TypographyStyleProps>`
@@ -30,8 +30,8 @@ export const Body2 = styled.p<TypographyStyleProps>`
   font-family: Poppins;
   font-weight: 400;
   line-height: 178%;
-  color: ${({ theme, textcolor }) =>
-    textcolor ? theme.colors[textcolor] : theme.colors.shade900};
+  color: ${({ theme, $textcolor }) =>
+    $textcolor ? theme.colors[$textcolor] : theme.colors.shade900};
 `;
 
 export const Body2Bold = styled.p<TypographyStyleProps>`
@@ -39,18 +39,18 @@ export const Body2Bold = styled.p<TypographyStyleProps>`
   font-family: Poppins;
   font-weight: 600;
   line-height: 178%;
-  color: ${({ theme, textcolor }) =>
-    textcolor ? theme.colors[textcolor] : theme.colors.shade900};
+  color: ${({ theme, $textcolor }) =>
+    $textcolor ? theme.colors[$textcolor] : theme.colors.shade900};
 `;
 
-export const Button = styled.p<TypographyStyleProps>`
+export const ButtonText = styled.p<TypographyStyleProps>`
   font-size: 15px;
   font-family: Pretendard;
   font-weight: 600;
   line-height: 36px;
   letter-spacing: 0.75px;
-  color: ${({ theme, textcolor }) =>
-    textcolor ? theme.colors[textcolor] : theme.colors.shade900};
+  color: ${({ theme, $textcolor }) =>
+    $textcolor ? theme.colors[$textcolor] : theme.colors.shade900};
 `;
 
 export const Filter = styled.p<TypographyStyleProps>`
@@ -59,8 +59,8 @@ export const Filter = styled.p<TypographyStyleProps>`
   font-style: normal;
   font-weight: 700;
   line-height: 178%;
-  color: ${({ theme, textcolor }) =>
-    textcolor ? theme.colors[textcolor] : theme.colors.shade900};
+  color: ${({ theme, $textcolor }) =>
+    $textcolor ? theme.colors[$textcolor] : theme.colors.shade900};
 `;
 
 export const Caption1 = styled.p<TypographyStyleProps>`
@@ -69,8 +69,8 @@ export const Caption1 = styled.p<TypographyStyleProps>`
   font-style: normal;
   font-weight: 400;
   line-height: 178%;
-  color: ${({ theme, textcolor }) =>
-    textcolor ? theme.colors[textcolor] : theme.colors.shade900};
+  color: ${({ theme, $textcolor }) =>
+    $textcolor ? theme.colors[$textcolor] : theme.colors.shade900};
 `;
 
 export const Overline = styled.p<TypographyStyleProps>`
@@ -80,6 +80,6 @@ export const Overline = styled.p<TypographyStyleProps>`
   line-height: 12px;
   letter-spacing: 0.6px;
   text-transform: uppercase;
-  color: ${({ theme, textcolor }) =>
-    textcolor ? theme.colors[textcolor] : theme.colors.shade900};
+  color: ${({ theme, $textcolor }) =>
+    $textcolor ? theme.colors[$textcolor] : theme.colors.shade900};
 `;
