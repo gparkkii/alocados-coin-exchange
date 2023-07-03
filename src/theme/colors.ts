@@ -1,6 +1,6 @@
-export type ColorType = keyof typeof color;
+export type ColorType = keyof typeof colors;
 
-export const color = {
+export const colors = {
   primary100: '#5D28F2',
   primary24: '#5D28F21F',
   shade000: '#FAFBFC',
@@ -14,7 +14,3 @@ export const color = {
   shadeOpacity5: '#2A32490D',
   white: '#FFFFFF',
 } as const;
-
-export const theme = {
-  colors: color,
-};

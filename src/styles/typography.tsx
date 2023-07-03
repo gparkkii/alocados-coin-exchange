@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { ColorType } from 'theme/color';
+import { ColorType } from 'theme/colors';
 
 interface TypographyStyleProps {
   $textcolor?: ColorType;
