@@ -20,7 +20,8 @@
       "types/*": ["@types/*"],
       "components/*": ["components/*"],
       "pages/*": ["pages/*"],
-      "styles/*": ["theme/*"]
+      "theme/*": ["theme/*"],
+      "utils/*": ["utils/*"]
     }
   },
   "include": ["src"]
