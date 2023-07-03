@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from 'styled-components';
+import Exchanger from './components/Exchanger';
 import Wallet from './components/Wallet';
 import { Title1 } from 'styles/typography';
 
@@ -16,8 +17,9 @@ const Wrapper = styled.div`
 const HStack = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  width: 100%;
   gap: 18px;
 `;
 
@@ -27,6 +29,7 @@ const ExchangePage = () => {
       <Title1>환전하기</Title1>
       <HStack>
         <Wallet />
+        <Exchanger />
       </HStack>
     </Wrapper>
   );
