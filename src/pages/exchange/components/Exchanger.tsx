@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import CoinSelector from './CoinSelector';
 import ExchangerInput from './ExchangerInput';
 import { CoinType } from '@types';
+import Button from 'components/Button';
 import Icon from 'components/Icon';
 import { COIN } from 'constants/Coin';
 import { RootState } from 'redux/store';
@@ -81,7 +82,6 @@ const Exchanger = () => {
       <Icon name="swap" width={40} height={40} />
       <HStack>
         <ExchangerInput
-          disabled
           label="전환수량 (to)"
           value={toAmount}
           onChange={e => handleAmountChange('to', e)}
@@ -91,6 +91,7 @@ const Exchanger = () => {
           onSelect={coin => handleCoinSelector('to', coin)}
         />
       </HStack>
+      <Button label="환전" onClick={handleExchange} />
     </ExchangerBox>
   );
 };

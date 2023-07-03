@@ -2,7 +2,7 @@ import React from 'react';
 import { styled } from 'styled-components';
 import { Overline } from 'styles/typography';
 
-const ExchangerInputBox = styled.div`
+const ExchangerInputBox = styled.div<{ $disabled?: boolean }>`
   ${({ theme }) => theme.backgroundStyle.shade000};
   display: flex;
   flex-direction: column;
@@ -12,6 +12,8 @@ const ExchangerInputBox = styled.div`
   height: 56px;
   padding-left: 14px;
   padding-right: 16px;
+  border: ${({ theme, $disabled }) =>
+    $disabled ? `1.2px solid ${theme.colors.error}` : '0px'};
 `;
 
 const ExchangerInputStyle = styled.input`
@@ -35,7 +37,7 @@ const ExchangerInput = ({
   disabled,
 }: ExchangerInputProps) => {
   return (
-    <ExchangerInputBox>
+    <ExchangerInputBox $disabled={disabled}>
       <Overline>{label}</Overline>
       <ExchangerInputStyle
         type="number"
