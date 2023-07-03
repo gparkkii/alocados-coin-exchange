@@ -6,6 +6,7 @@ import Icon from 'components/Icon';
 import { COIN } from 'constants/Coin';
 import { RootState } from 'redux/store';
 import { Body2, Body2Bold, Strong } from 'styles/typography';
+import { formatWalletAsset } from 'utils/stringParser';
 
 const WalletBox = styled.div`
   ${({ theme }) => theme.backgroundStyle.shade000};
@@ -42,14 +43,11 @@ const CoinBadge = styled.div`
   gap: 4px;
 `;
 
-interface BalanceProps {
+interface AssetProps {
   coin: CoinInfoType;
-  balance: number;
+  asset: number;
 }
-const Balance = ({ coin, balance }: BalanceProps) => {
-  const numberWithCommas = balance
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const Asset = ({ coin, asset }: AssetProps) => {
   return (
     <div>
       <CoinBadge>
@@ -59,7 +57,7 @@ const Balance = ({ coin, balance }: BalanceProps) => {
         <Body2> {coin.name}</Body2>
       </CoinBadge>
       <Body2Bold>
-        {numberWithCommas} {coin.unit}
+        {formatWalletAsset(asset)} {coin.unit}
       </Body2Bold>
     </div>
   );
@@ -72,9 +70,9 @@ const Wallet = () => {
       <Strong>지갑</Strong>
       <Divider />
       <CoinStack>
-        <Balance coin={COIN.solana} balance={wallet.solana} />
-        <Balance coin={COIN.ethereum} balance={wallet.ethereum} />
-        <Balance coin={COIN.bnb} balance={wallet.bnb} />
+        <Asset coin={COIN.solana} asset={wallet.solana} />
+        <Asset coin={COIN.ethereum} asset={wallet.ethereum} />
+        <Asset coin={COIN.bnb} asset={wallet.bnb} />
       </CoinStack>
     </WalletBox>
   );
