@@ -7,6 +7,7 @@ import { ButtonText } from 'styles/typography';
 
 const Header = styled.header`
   position: fixed;
+  z-index: 99999;
 
   display: flex;
   flex-direction: row;
