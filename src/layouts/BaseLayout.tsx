@@ -17,6 +17,8 @@ const Header = styled.header`
   width: 100%;
   height: 120px;
   padding: 32px;
+
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const Nav = styled.nav`
@@ -69,7 +71,9 @@ const BaseLayout = () => {
   return (
     <div>
       <Header>
-        <Logo width={168} height={40} />
+        <NavLink to={PATH.root}>
+          <Logo width={168} height={40} />
+        </NavLink>
         <Nav>
           <NavMenu path={PATH.exchange} name="환전하기" />
           <NavMenu path={PATH.history} name="거래내역" />
