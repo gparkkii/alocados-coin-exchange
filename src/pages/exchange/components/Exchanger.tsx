@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled } from 'styled-components';
+import HistoryBar from '../../../components/HistoryBar';
 import CoinSelector from './CoinSelector';
 import ExchangerInput from './ExchangerInput';
 import { CoinType } from '@types';
@@ -48,6 +49,8 @@ const INITIAL_EXCHANGE_DATA: exchangeDataType = {
 const Exchanger = () => {
   const dispatch = useDispatch();
   const wallet = useSelector((state: RootState) => state.wallet);
+  const recentHistory =
+    wallet.exchangeHistory[wallet.exchangeHistory.length - 1];
 
   const [exchangeData, setExchangeData] = useState(INITIAL_EXCHANGE_DATA);
   const { fromCoin, toCoin, fromAmount, toAmount } = exchangeData;
@@ -180,6 +183,7 @@ const Exchanger = () => {
         onClick={handleButtonClick}
         disabled={!fromAmount || handleInputError('from')}
       />
+      {recentHistory && <HistoryBar history={recentHistory} />}
     </ExchangerBox>
   );
 };

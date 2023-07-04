@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { styled } from 'styled-components';
-import HistoryBar, { BarWrapper } from './components/HistoryBar';
+import HistoryBar, { BarWrapper } from 'components/HistoryBar';
 import Icon from 'components/Icon';
 import { RootState } from 'redux/store';
 import { Caption1, Filter } from 'styles/typography';

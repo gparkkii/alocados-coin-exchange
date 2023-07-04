@@ -30,16 +30,14 @@ const exchangeCoinReducer = (
   const exchangeHistoryItem: ExchangeHistoryType = {
     from: {
       type: fromCoin,
-      amount: state[fromCoin],
+      amount: fromAmount,
     },
     to: {
       type: toCoin,
-      amount: state[toCoin],
+      amount: toAmount,
     },
     timestamp: Date.now(),
   };
-
-  console.log(action.payload);
 
   state[fromCoin] -= fromAmount;
   state[toCoin] += toAmount;
