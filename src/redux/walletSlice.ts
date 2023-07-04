@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CoinExchangeProps, CoinType, ExchangeHistoryType } from '@types';
-import { calculateCoinExchange } from 'utils/exchangeRate';
+import { CoinType, ExchangeHistoryType } from '@types';
 
 export type WalletState = {
   [key in CoinType]: number;
@@ -19,9 +18,14 @@ const initialState: WalletState = {
 
 const exchangeCoinReducer = (
   state: WalletState,
-  action: PayloadAction<CoinExchangeProps>,
+  action: PayloadAction<{
+    fromCoin: CoinType;
+    toCoin: CoinType;
+    fromAmount: number;
+    toAmount: number;
+  }>,
 ) => {
-  const { fromCoin, toCoin, amount } = action.payload;
+  const { fromCoin, toCoin, fromAmount, toAmount } = action.payload;
 
   const exchangeHistoryItem: ExchangeHistoryType = {
     from: {
@@ -35,10 +39,10 @@ const exchangeCoinReducer = (
     timestamp: Date.now(),
   };
 
-  const exchangedCoin = calculateCoinExchange({ fromCoin, toCoin, amount });
+  console.log(action.payload);
 
-  state[fromCoin] -= amount;
-  state[toCoin] += exchangedCoin;
+  state[fromCoin] -= fromAmount;
+  state[toCoin] += toAmount;
   state.exchangeHistory.push(exchangeHistoryItem);
 };
 

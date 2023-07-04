@@ -2,7 +2,7 @@ import React from 'react';
 import { styled } from 'styled-components';
 import { Overline } from 'styles/typography';
 
-const ExchangerInputBox = styled.div<{ $disabled?: boolean }>`
+const ExchangerInputBox = styled.div<{ $hasError?: boolean }>`
   ${({ theme }) => theme.backgroundStyle.shade000};
   display: flex;
   flex-direction: column;
@@ -12,8 +12,8 @@ const ExchangerInputBox = styled.div<{ $disabled?: boolean }>`
   height: 56px;
   padding-left: 14px;
   padding-right: 16px;
-  border: ${({ theme, $disabled }) =>
-    $disabled ? `1.2px solid ${theme.colors.error}` : '0px'};
+  border: ${({ theme, $hasError }) =>
+    $hasError ? `1.2px solid ${theme.colors.error}` : '0px'};
 `;
 
 const ExchangerInputStyle = styled.input`
@@ -25,26 +25,21 @@ const ExchangerInputStyle = styled.input`
 
 interface ExchangerInputProps {
   label: string;
-  value?: number;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  disabled?: boolean;
+  value: number;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  hasError: boolean;
 }
 
 const ExchangerInput = ({
   label,
   value,
   onChange,
-  disabled,
+  hasError,
 }: ExchangerInputProps) => {
   return (
-    <ExchangerInputBox $disabled={disabled}>
+    <ExchangerInputBox $hasError={hasError}>
       <Overline>{label}</Overline>
-      <ExchangerInputStyle
-        type="number"
-        value={value}
-        onChange={onChange}
-        disabled={disabled}
-      />
+      <ExchangerInputStyle type="number" value={value} onChange={onChange} />
     </ExchangerInputBox>
   );
 };

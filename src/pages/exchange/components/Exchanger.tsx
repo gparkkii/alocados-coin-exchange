@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled } from 'styled-components';
 import CoinSelector from './CoinSelector';
@@ -9,6 +9,7 @@ import Icon from 'components/Icon';
 import { COIN } from 'constants/Coin';
 import { RootState } from 'redux/store';
 import { exchangeCoin } from 'redux/walletSlice';
+import { calculateCoinExchange } from 'utils/exchangeRate';
 
 const ExchangerBox = styled.div`
   display: flex;
@@ -30,41 +31,113 @@ const Exchanger = () => {
   const dispatch = useDispatch();
   const wallet = useSelector((state: RootState) => state.wallet);
 
-  const [fromCoin, setFromCoin] = useState<CoinType>('ethereum');
-  const [toCoin, setToCoin] = useState<CoinType>('solana');
-  const [fromAmount, setFromAmount] = useState<number>(wallet[fromCoin]);
-  const [toAmount, setToAmount] = useState<number>(wallet[toCoin]);
+  const [exchangeData, setExchangeData] = useState<{
+    fromCoin: CoinType;
+    toCoin: CoinType;
+    fromAmount: number;
+    toAmount: number;
+  }>({
+    fromCoin: 'ethereum',
+    toCoin: 'solana',
+    fromAmount: 1,
+    toAmount: calculateCoinExchange({
+      fromCoin: 'ethereum',
+      toCoin: 'solana',
+      amount: 1,
+    }),
+  });
+  const { fromCoin, toCoin, fromAmount, toAmount } = exchangeData;
 
-  const handleCoinSelector = (type: 'to' | 'from', coin: CoinType) => {
-    if (type === 'to') {
-      setToCoin(coin);
-    } else {
-      setFromCoin(coin);
-    }
-  };
+  const handleCoinSwap = useCallback(() => {
+    setExchangeData(prev => ({
+      fromCoin: prev.toCoin,
+      toCoin: prev.fromCoin,
+      fromAmount: prev.toAmount,
+      toAmount: prev.fromAmount,
+    }));
+  }, []);
 
-  const handleAmountChange = (
-    type: 'to' | 'from',
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const inputValue = event.target.value;
-    if (inputValue.length > 10) {
-      return;
-    }
-    const parsedValue = parseFloat(inputValue.replace(/[^0-9.]/g, ''));
+  const handleCoinSelector = useCallback(
+    (type: 'to' | 'from', coin: CoinType) => {
+      setExchangeData(prev => {
+        const updatedData = {
+          fromCoin: type === 'from' ? coin : prev.fromCoin,
+          toCoin: type === 'to' ? coin : prev.toCoin,
+          fromAmount:
+            type === 'from'
+              ? calculateCoinExchange({
+                  fromCoin: prev.toCoin,
+                  toCoin: coin,
+                  amount: prev.toAmount,
+                })
+              : prev.fromAmount,
+          toAmount:
+            type === 'to'
+              ? calculateCoinExchange({
+                  fromCoin: prev.fromCoin,
+                  toCoin: coin,
+                  amount: prev.fromAmount,
+                })
+              : prev.toAmount,
+        };
+        return updatedData;
+      });
+    },
+    [],
+  );
+  const handleAmountChange = useCallback(
+    (type: 'to' | 'from', event: React.ChangeEvent<HTMLInputElement>) => {
+      const decimalValue = parseFloat(
+        event.target.value.replace(/[^0-9.]/g, ''),
+      ).toFixed(10);
+      const parsedValue = parseFloat(decimalValue);
 
-    if (type === 'to') {
-      setToAmount(parsedValue);
-    } else {
-      setFromAmount(parsedValue);
-    }
-  };
+      setExchangeData(prev => {
+        const updatedData = {
+          ...prev,
+          fromAmount:
+            type === 'from'
+              ? parsedValue
+              : calculateCoinExchange({
+                  fromCoin: prev.toCoin,
+                  toCoin: prev.fromCoin,
+                  amount: parsedValue,
+                }),
+          toAmount:
+            type === 'to'
+              ? parsedValue
+              : calculateCoinExchange({
+                  fromCoin: prev.fromCoin,
+                  toCoin: prev.toCoin,
+                  amount: parsedValue,
+                }),
+        };
+        return updatedData;
+      });
+    },
+    [],
+  );
 
-  const handleExchange = () => {
-    if (fromCoin && toCoin && fromAmount > 0) {
-      dispatch(exchangeCoin({ fromCoin, toCoin, amount: fromAmount }));
+  const handleInputError = useCallback(
+    (type: 'from' | 'to') => {
+      const currentAsset = type === 'from' ? wallet[fromCoin] : wallet[toCoin];
+      const inputValue = type === 'from' ? fromAmount : toAmount;
+      return inputValue === 0 || inputValue > currentAsset;
+    },
+    [fromAmount, toAmount, fromCoin, toCoin, wallet],
+  );
+
+  const handleExchange = useCallback(() => {
+    if (fromAmount > 0 && fromAmount <= wallet[toCoin]) {
+      dispatch(exchangeCoin({ fromCoin, toCoin, fromAmount, toAmount }));
     }
-  };
+  }, [dispatch, fromAmount, toAmount, fromCoin, toCoin, wallet]);
+
+  const handleButtonClick = useCallback(() => {
+    if (!handleInputError('from')) {
+      handleExchange();
+    }
+  }, [handleExchange, handleInputError]);
 
   return (
     <ExchangerBox>
@@ -73,25 +146,33 @@ const Exchanger = () => {
           label="전환수량 (from)"
           value={fromAmount}
           onChange={e => handleAmountChange('from', e)}
+          hasError={!fromAmount || handleInputError('from')}
         />
         <CoinSelector
           selectedCoin={COIN[fromCoin]}
           onSelect={coin => handleCoinSelector('from', coin)}
         />
       </HStack>
-      <Icon name="swap" width={40} height={40} />
+      <button onClick={handleCoinSwap}>
+        <Icon name="swap" width={40} height={40} />
+      </button>
       <HStack>
         <ExchangerInput
           label="전환수량 (to)"
           value={toAmount}
           onChange={e => handleAmountChange('to', e)}
+          hasError={!toAmount}
         />
         <CoinSelector
           selectedCoin={COIN[toCoin]}
           onSelect={coin => handleCoinSelector('to', coin)}
         />
       </HStack>
-      <Button label="환전" onClick={handleExchange} />
+      <Button
+        label="환전"
+        onClick={handleButtonClick}
+        disabled={!fromAmount || handleInputError('from')}
+      />
     </ExchangerBox>
   );
 };
