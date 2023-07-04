@@ -21,21 +21,22 @@ const HistoryStack = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+  max-width: 70%;
   width: 100%;
   gap: 32px;
 `;
 
 const TimestampLabel = styled.div`
-  min-width: 206px;
+  max-width: 206px;
 `;
 
 const CoinLabel = styled.div`
+  width: 50%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  width: 50%;
   gap: 8px;
 `;
 

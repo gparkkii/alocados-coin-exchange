@@ -12,7 +12,9 @@ const VStack = styled.div`
   align-items: center;
   justify-content: center;
   max-width: 960px;
+  max-height: 552px;
   width: 100%;
+  height: 100%;
   gap: 8px;
 `;
 
@@ -28,6 +30,16 @@ const Arrow = styled.div<{ $isDescending?: boolean }>`
   align-items: center;
   transform: ${({ $isDescending }) =>
     $isDescending ? 'none' : 'rotate(-180deg)'};
+`;
+
+const ScrollList = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 8px;
+  gap: 8px;
+  overflow: scroll;
 `;
 
 const HistoryPage = () => {
@@ -57,9 +69,11 @@ const HistoryPage = () => {
         </FilterStack>
         <Caption1>환전 금액</Caption1>
       </BarWrapper>
-      {sortedHistory.map((history, index) => (
-        <HistoryBar key={`${history.timestamp}_${index}`} history={history} />
-      ))}
+      <ScrollList>
+        {sortedHistory.map((history, index) => (
+          <HistoryBar key={`${history.timestamp}_${index}`} history={history} />
+        ))}
+      </ScrollList>
     </VStack>
   );
 };
