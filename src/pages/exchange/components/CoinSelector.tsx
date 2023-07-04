@@ -36,12 +36,15 @@ const OptionBox = styled.div<{ $isOpen?: boolean }>`
   box-shadow: 0px 12px 16px 0px rgba(0, 0, 0, 0.15);
 `;
 
-const OptionBadge = styled.div`
+const OptionBadge = styled.div<{ selected?: boolean; disabled: boolean }>`
   display: flex;
   align-items: center;
   width: 100%;
   height: 56px;
   padding: 10px;
+  opacity: ${({ disabled }) => (disabled ? 0.43 : 1)};
+  background-color: ${({ selected, theme }) =>
+    selected ? theme.colors.shade100 : theme.colors.white};
   &:hover {
     background-color: ${({ theme }) => theme.colors.shade100};
   }
@@ -56,14 +59,26 @@ const OptionLabel = styled(Caption1)`
 `;
 
 interface OptionButtonProps {
+  selected: boolean;
+  disabled: boolean;
   coin: CoinInfoType;
   onClick: (name: CoinType) => void;
 }
-const OptionButton = ({ coin, onClick }: OptionButtonProps) => {
+
+const OptionButton = ({
+  disabled,
+  selected,
+  coin,
+  onClick,
+}: OptionButtonProps) => {
   return (
-    <OptionBadge onClick={() => onClick(coin.icon)}>
+    <OptionBadge
+      disabled={disabled}
+      selected={selected}
+      onClick={() => onClick(coin.type)}
+    >
       <OptionLabel>
-        <Icon name={coin.icon} width={18} height={18} />
+        <Icon name={coin.type} width={18} height={18} />
         {coin.name}
       </OptionLabel>
     </OptionBadge>
@@ -71,11 +86,16 @@ const OptionButton = ({ coin, onClick }: OptionButtonProps) => {
 };
 
 interface CoinSelectorProps {
-  selectedCoin: CoinInfoType;
   onSelect: (coin: CoinType) => void;
+  selectedCoin: CoinInfoType;
+  disabledCoin?: CoinType;
 }
 
-const CoinSelector = ({ selectedCoin, onSelect }: CoinSelectorProps) => {
+const CoinSelector = ({
+  onSelect,
+  selectedCoin,
+  disabledCoin,
+}: CoinSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const optionBoxRef = useRef<HTMLDivElement>(null);
 
@@ -113,15 +133,21 @@ const CoinSelector = ({ selectedCoin, onSelect }: CoinSelectorProps) => {
     <Wrapper ref={optionBoxRef}>
       <SelectorBox onClick={handleSelectorClick}>
         <OptionLabel>
-          <Icon name={selectedCoin.icon} width={18} height={18} />
+          <Icon name={selectedCoin.type} width={18} height={18} />
           {selectedCoin.name}
         </OptionLabel>
         <Icon name="chevronDown" width={24} height={24} />
       </SelectorBox>
       <OptionBox $isOpen={isOpen}>
-        <OptionButton coin={COIN.bnb} onClick={handleOptionClick} />
-        <OptionButton coin={COIN.solana} onClick={handleOptionClick} />
-        <OptionButton coin={COIN.ethereum} onClick={handleOptionClick} />
+        {Object.values(COIN).map(coin => (
+          <OptionButton
+            key={coin.name}
+            disabled={disabledCoin === coin.type}
+            selected={selectedCoin.type === coin.type}
+            coin={coin}
+            onClick={handleOptionClick}
+          />
+        ))}
       </OptionBox>
     </Wrapper>
   );

@@ -1,7 +1,7 @@
 export type CoinType = 'ethereum' | 'solana' | 'bnb';
 
 export type CoinInfoType = {
-  icon: CoinType;
+  type: CoinType;
   name: string;
   unit: string;
 };

@@ -52,7 +52,7 @@ const Asset = ({ coin, asset }: AssetProps) => {
     <div>
       <CoinBadge>
         <CoinIcon>
-          <Icon name={coin.icon} width={20} height={20} />
+          <Icon name={coin.type} width={20} height={20} />
         </CoinIcon>
         <Body2> {coin.name}</Body2>
       </CoinBadge>

@@ -52,14 +52,14 @@ const HistoryBar = ({ history }: HistoryBarProps) => {
       </TimestampLabel>
       <HistoryStack>
         <CoinLabel>
-          <Icon name={COIN[from.type].icon} width={24} height={24} />
+          <Icon name={COIN[from.type].type} width={24} height={24} />
           <Body2Bold>
             {formatHistoryAsset(from.amount)} {COIN[from.type].unit}
           </Body2Bold>
         </CoinLabel>
         <Icon name="chevronRight" width={16} height={16} />
         <CoinLabel>
-          <Icon name={COIN[to.type].icon} width={24} height={24} />
+          <Icon name={COIN[to.type].type} width={24} height={24} />
           <Body2Bold>
             {formatHistoryAsset(to.amount)} {COIN[to.type].unit}
           </Body2Bold>

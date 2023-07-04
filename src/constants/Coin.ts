@@ -4,17 +4,17 @@ export const COIN: {
   [key in CoinType]: CoinInfoType;
 } = {
   ethereum: {
-    icon: 'ethereum',
+    type: 'ethereum',
     name: 'Ethereum',
     unit: 'ETH',
   },
   solana: {
-    icon: 'solana',
+    type: 'solana',
     name: 'Solana',
     unit: 'SOL',
   },
   bnb: {
-    icon: 'bnb',
+    type: 'bnb',
     name: 'BnB',
     unit: 'BnB',
   },
