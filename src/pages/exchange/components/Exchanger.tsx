@@ -150,6 +150,7 @@ const Exchanger = () => {
         />
         <CoinSelector
           selectedCoin={COIN[fromCoin]}
+          disabledCoin={COIN[toCoin].type}
           onSelect={coin => handleCoinSelector('from', coin)}
         />
       </HStack>
@@ -165,6 +166,7 @@ const Exchanger = () => {
         />
         <CoinSelector
           selectedCoin={COIN[toCoin]}
+          disabledCoin={COIN[fromCoin].type}
           onSelect={coin => handleCoinSelector('to', coin)}
         />
       </HStack>

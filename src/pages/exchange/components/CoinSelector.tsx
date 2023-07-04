@@ -104,8 +104,11 @@ const CoinSelector = ({
   };
 
   const handleOptionClick = (coin: CoinType) => {
-    setIsOpen(false);
+    if (coin === disabledCoin || coin === selectedCoin.type) {
+      return;
+    }
     onSelect(coin);
+    setIsOpen(false);
   };
 
   const handleClickOutside = useCallback(
