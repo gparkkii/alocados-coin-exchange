@@ -27,25 +27,29 @@ const HStack = styled.div`
   gap: 16px;
 `;
 
+interface exchangeDataType {
+  fromCoin: CoinType;
+  toCoin: CoinType;
+  fromAmount: number;
+  toAmount: number;
+}
+
+const INITIAL_EXCHANGE_DATA: exchangeDataType = {
+  fromCoin: 'ethereum',
+  toCoin: 'solana',
+  fromAmount: 1,
+  toAmount: calculateCoinExchange({
+    fromCoin: 'ethereum',
+    toCoin: 'solana',
+    amount: 1,
+  }),
+};
+
 const Exchanger = () => {
   const dispatch = useDispatch();
   const wallet = useSelector((state: RootState) => state.wallet);
 
-  const [exchangeData, setExchangeData] = useState<{
-    fromCoin: CoinType;
-    toCoin: CoinType;
-    fromAmount: number;
-    toAmount: number;
-  }>({
-    fromCoin: 'ethereum',
-    toCoin: 'solana',
-    fromAmount: 1,
-    toAmount: calculateCoinExchange({
-      fromCoin: 'ethereum',
-      toCoin: 'solana',
-      amount: 1,
-    }),
-  });
+  const [exchangeData, setExchangeData] = useState(INITIAL_EXCHANGE_DATA);
   const { fromCoin, toCoin, fromAmount, toAmount } = exchangeData;
 
   const handleCoinSwap = useCallback(() => {
@@ -130,6 +134,7 @@ const Exchanger = () => {
   const handleExchange = useCallback(() => {
     if (fromAmount > 0 && fromAmount <= wallet[toCoin]) {
       dispatch(exchangeCoin({ fromCoin, toCoin, fromAmount, toAmount }));
+      setExchangeData(INITIAL_EXCHANGE_DATA);
     }
   }, [dispatch, fromAmount, toAmount, fromCoin, toCoin, wallet]);
 
