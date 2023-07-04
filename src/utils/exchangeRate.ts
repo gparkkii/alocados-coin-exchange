@@ -32,10 +32,10 @@ export const calculateCoinExchange = ({
   fromCoin,
   toCoin,
   amount,
-}: CoinExchangeProps): number => {
+}: CoinExchangeProps) => {
   const exchangeRate = EXCHANGE_RATES[fromCoin][toCoin];
   if (!exchangeRate) {
-    return 0;
+    return '0';
   }
-  return amount * exchangeRate;
+  return (amount * exchangeRate).toString();
 };

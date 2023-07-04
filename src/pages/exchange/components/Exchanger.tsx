@@ -31,18 +31,19 @@ const HStack = styled.div`
 interface exchangeDataType {
   fromCoin: CoinType;
   toCoin: CoinType;
-  fromAmount: number;
-  toAmount: number;
+  fromAmount: string;
+  toAmount: string;
 }
 
+const INITIAL_AMOUNT = 1;
 const INITIAL_EXCHANGE_DATA: exchangeDataType = {
   fromCoin: 'ethereum',
   toCoin: 'solana',
-  fromAmount: 1,
+  fromAmount: INITIAL_AMOUNT.toString(),
   toAmount: calculateCoinExchange({
     fromCoin: 'ethereum',
     toCoin: 'solana',
-    amount: 1,
+    amount: INITIAL_AMOUNT,
   }),
 };
 
@@ -66,86 +67,94 @@ const Exchanger = () => {
 
   const handleCoinSelector = useCallback(
     (type: 'to' | 'from', coin: CoinType) => {
-      setExchangeData(prev => {
-        const updatedData = {
-          fromCoin: type === 'from' ? coin : prev.fromCoin,
-          toCoin: type === 'to' ? coin : prev.toCoin,
-          fromAmount:
-            type === 'from'
-              ? calculateCoinExchange({
-                  fromCoin: prev.toCoin,
-                  toCoin: coin,
-                  amount: prev.toAmount,
-                })
-              : prev.fromAmount,
-          toAmount:
-            type === 'to'
-              ? calculateCoinExchange({
-                  fromCoin: prev.fromCoin,
-                  toCoin: coin,
-                  amount: prev.fromAmount,
-                })
-              : prev.toAmount,
-        };
-        return updatedData;
-      });
+      setExchangeData(prev => ({
+        fromCoin: type === 'from' ? coin : prev.fromCoin,
+        toCoin: type === 'to' ? coin : prev.toCoin,
+        fromAmount:
+          type === 'from'
+            ? calculateCoinExchange({
+                fromCoin: prev.toCoin,
+                toCoin: coin,
+                amount: parseFloat(prev.toAmount),
+              }).toString()
+            : prev.fromAmount,
+        toAmount:
+          type === 'to'
+            ? calculateCoinExchange({
+                fromCoin: prev.fromCoin,
+                toCoin: coin,
+                amount: parseFloat(prev.fromAmount),
+              }).toString()
+            : prev.toAmount,
+      }));
     },
     [],
   );
   const handleAmountChange = useCallback(
     (type: 'to' | 'from', event: React.ChangeEvent<HTMLInputElement>) => {
-      const decimalValue = parseFloat(
-        event.target.value.replace(/[^0-9.]/g, ''),
-      ).toFixed(10);
-      const parsedValue = parseFloat(decimalValue);
+      const decimalValue = event.target.value
+        .replace(/[^0-9.]/g, '')
+        .replace(/(\..*)\./g, '$1');
 
-      setExchangeData(prev => {
-        const updatedData = {
+      if (
+        decimalValue.includes('.') &&
+        decimalValue.split('.')[1]?.length > 10
+      ) {
+        return;
+      }
+
+      if (isNaN(parseFloat(decimalValue))) {
+        setExchangeData(prev => ({
           ...prev,
-          fromAmount:
-            type === 'from'
-              ? parsedValue
-              : calculateCoinExchange({
-                  fromCoin: prev.toCoin,
-                  toCoin: prev.fromCoin,
-                  amount: parsedValue,
-                }),
-          toAmount:
-            type === 'to'
-              ? parsedValue
-              : calculateCoinExchange({
-                  fromCoin: prev.fromCoin,
-                  toCoin: prev.toCoin,
-                  amount: parsedValue,
-                }),
-        };
-        return updatedData;
-      });
+          fromAmount: '',
+          toAmount: '',
+        }));
+        return;
+      }
+
+      setExchangeData(prev => ({
+        ...prev,
+        fromAmount:
+          type === 'from'
+            ? decimalValue
+            : calculateCoinExchange({
+                fromCoin: prev.toCoin,
+                toCoin: prev.fromCoin,
+                amount: parseFloat(decimalValue),
+              }).toString(),
+        toAmount:
+          type === 'to'
+            ? decimalValue
+            : calculateCoinExchange({
+                fromCoin: prev.fromCoin,
+                toCoin: prev.toCoin,
+                amount: parseFloat(decimalValue),
+              }).toString(),
+      }));
     },
     [],
   );
 
-  const handleInputError = useCallback(
-    (type: 'from' | 'to') => {
-      const currentAsset = type === 'from' ? wallet[fromCoin] : wallet[toCoin];
-      const inputValue = type === 'from' ? fromAmount : toAmount;
-      return inputValue === 0 || inputValue > currentAsset;
-    },
-    [fromAmount, toAmount, fromCoin, toCoin, wallet],
-  );
-
-  const handleExchange = useCallback(() => {
-    if (fromAmount > 0 && fromAmount <= wallet[toCoin]) {
-      dispatch(exchangeCoin({ fromCoin, toCoin, fromAmount, toAmount }));
-      setExchangeData(INITIAL_EXCHANGE_DATA);
-    }
-  }, [dispatch, fromAmount, toAmount, fromCoin, toCoin, wallet]);
+  const handleInputError = useCallback(() => {
+    const inputValue = parseFloat(fromAmount);
+    return (
+      inputValue === 0 || inputValue > wallet[fromCoin] || isNaN(inputValue)
+    );
+  }, [fromAmount, fromCoin, wallet]);
 
   const handleButtonClick = useCallback(() => {
-    if (!handleInputError('from')) {
-      handleExchange();
+    if (!handleInputError()) {
+      dispatch(
+        exchangeCoin({
+          fromCoin,
+          toCoin,
+          fromAmount: parseFloat(fromAmount),
+          toAmount: parseFloat(toAmount),
+        }),
+      );
+      setExchangeData(INITIAL_EXCHANGE_DATA);
     }
-  }, [handleExchange, handleInputError]);
+  }, [dispatch, fromAmount, fromCoin, handleInputError, toAmount, toCoin]);
 
   return (
     <ExchangerBox>
@@ -154,7 +163,7 @@ const Exchanger = () => {
           label="전환수량 (from)"
           value={fromAmount}
           onChange={e => handleAmountChange('from', e)}
-          hasError={!fromAmount || handleInputError('from')}
+          hasError={!fromAmount || handleInputError()}
         />
         <CoinSelector
           selectedCoin={COIN[fromCoin]}
@@ -170,7 +179,7 @@ const Exchanger = () => {
           label="전환수량 (to)"
           value={toAmount}
           onChange={e => handleAmountChange('to', e)}
-          hasError={!toAmount}
+          hasError={!toAmount || toAmount === '0'}
         />
         <CoinSelector
           selectedCoin={COIN[toCoin]}
@@ -181,7 +190,7 @@ const Exchanger = () => {
       <Button
         label="환전"
         onClick={handleButtonClick}
-        disabled={!fromAmount || handleInputError('from')}
+        disabled={!fromAmount || handleInputError()}
       />
       {recentHistory && <HistoryBar history={recentHistory} />}
     </ExchangerBox>

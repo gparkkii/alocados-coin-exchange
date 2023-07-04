@@ -25,7 +25,7 @@ const ExchangerInputStyle = styled.input`
 
 interface ExchangerInputProps {
   label: string;
-  value: number;
+  value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   hasError: boolean;
 }
@@ -39,7 +39,7 @@ const ExchangerInput = ({
   return (
     <ExchangerInputBox $hasError={hasError}>
       <Overline>{label}</Overline>
-      <ExchangerInputStyle type="number" value={value} onChange={onChange} />
+      <ExchangerInputStyle type="text" value={value} onChange={onChange} />
     </ExchangerInputBox>
   );
 };
