@@ -43,6 +43,15 @@ export const Body2Bold = styled.p<TypographyStyleProps>`
     $textcolor ? theme.colors[$textcolor] : theme.colors.shade900};
 `;
 
+export const Body = styled.p<TypographyStyleProps>`
+  font-size: 15px;
+  font-family: Pretendard;
+  font-weight: 400;
+  line-height: 22px;
+  color: ${({ theme, $textcolor }) =>
+    $textcolor ? theme.colors[$textcolor] : theme.colors.shade900};
+`;
+
 export const ButtonText = styled.p<TypographyStyleProps>`
   font-size: 15px;
   font-family: Pretendard;

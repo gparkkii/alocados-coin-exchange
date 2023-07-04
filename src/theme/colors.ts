@@ -14,6 +14,8 @@ export const colors = {
   shade800: '#313C57',
   shade900: '#2A3249',
   shadeOpacity5: '#2A32490D',
+  infoBg: '#3756E41F',
+  info: '#3756E4',
   error: '#F7254B',
   white: '#FFFFFF',
 } as const;
