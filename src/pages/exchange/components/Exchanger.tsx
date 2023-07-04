@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled } from 'styled-components';
-import HistoryBar from '../../../components/HistoryBar';
 import CoinSelector from './CoinSelector';
 import ExchangerInput from './ExchangerInput';
 import { CoinType } from '@types';
 import Button from 'components/Button';
+import HistoryBar from 'components/HistoryBar';
 import Icon from 'components/Icon';
 import { COIN } from 'constants/Coin';
 import { RootState } from 'redux/store';
