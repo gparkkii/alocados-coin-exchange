@@ -1,12 +1,12 @@
-// src/redux/store.ts
-
 import { configureStore } from '@reduxjs/toolkit';
-import walletReducer from './walletSlice';
+import persistReducer from './rootReducer';
 
 const store = configureStore({
-  reducer: {
-    wallet: walletReducer,
-  },
+  reducer: persistReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

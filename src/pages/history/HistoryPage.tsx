@@ -45,7 +45,7 @@ const ScrollList = styled.div`
   height: 100%;
   padding-bottom: 8px;
   gap: 8px;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 const HistoryPage = () => {
