@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { styled } from 'styled-components';
-import HistoryBar, { BarWrapper } from 'components/HistoryBar';
+import HistoryBar from 'components/HistoryBar';
 import Icon from 'components/Icon';
 import { RootState } from 'redux/store';
 import { Caption1, Filter } from 'styles/typography';
 import { mediaQuery } from 'theme/breakpoints';
+
+const BarWrapper = styled.div`
+  ${({ theme }) => theme.backgroundStyle.shade100};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 16px;
+  gap: 32px;
+`;
 
 const VStack = styled.div`
   display: flex;

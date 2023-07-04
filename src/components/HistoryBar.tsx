@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from 'styled-components';
+import { mediaQuery } from '../theme/breakpoints';
 import { ExchangeHistoryType } from '@types';
 import Icon from 'components/Icon';
 import { COIN } from 'constants/Coin';
@@ -15,6 +16,12 @@ export const BarWrapper = styled.div`
   width: 100%;
   padding: 8px 16px;
   gap: 32px;
+
+  ${mediaQuery.sm} {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 `;
 
 const HistoryStack = styled.div`
@@ -23,8 +30,12 @@ const HistoryStack = styled.div`
   align-items: center;
   justify-content: space-around;
   max-width: 70%;
+  min-width: 380px;
   width: 100%;
   gap: 32px;
+  ${mediaQuery.sm} {
+    max-width: 100%;
+  }
 `;
 
 const TimestampLabel = styled.div`
