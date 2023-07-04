@@ -28,7 +28,7 @@ const HistoryStack = styled.div`
 `;
 
 const TimestampLabel = styled.div`
-  max-width: 206px;
+  width: 100%;
 `;
 
 const CoinLabel = styled.div`

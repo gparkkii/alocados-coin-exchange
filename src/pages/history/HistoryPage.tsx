@@ -5,6 +5,7 @@ import HistoryBar, { BarWrapper } from 'components/HistoryBar';
 import Icon from 'components/Icon';
 import { RootState } from 'redux/store';
 import { Caption1, Filter } from 'styles/typography';
+import { mediaQuery } from 'theme/breakpoints';
 
 const VStack = styled.div`
   display: flex;
@@ -16,6 +17,11 @@ const VStack = styled.div`
   width: 100%;
   height: 100%;
   gap: 8px;
+
+  ${mediaQuery.md} {
+    max-width: 100%;
+    max-height: 100%;
+  }
 `;
 
 const FilterStack = styled.button`

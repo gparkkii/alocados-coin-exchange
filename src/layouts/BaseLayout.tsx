@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import { ReactComponent as Logo } from 'assets/Image/Logo.svg';
 import { PATH } from 'routes/path';
 import { ButtonText } from 'styles/typography';
+import { mediaQuery } from 'theme/breakpoints';
 
 const Header = styled.header`
   position: fixed;
@@ -47,7 +48,13 @@ const Main = styled.main`
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  padding: 0px 40px;
   padding-top: 120px;
+
+  ${mediaQuery.md} {
+    height: 100%;
+    padding-bottom: 80px;
+  }
 `;
 
 interface NavMenuProps {

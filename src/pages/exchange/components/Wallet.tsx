@@ -6,12 +6,17 @@ import Icon from 'components/Icon';
 import { COIN } from 'constants/Coin';
 import { RootState } from 'redux/store';
 import { Body2, Body2Bold, Strong } from 'styles/typography';
+import { mediaQuery } from 'theme/breakpoints';
 import { formatWalletAsset } from 'utils/stringParser';
 
 const WalletBox = styled.div`
   ${({ theme }) => theme.backgroundStyle.shade000};
   min-width: 308px;
   padding: 24px;
+
+  ${mediaQuery.md} {
+    min-width: 100%;
+  }
 `;
 
 const Divider = styled.div`

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { styled } from 'styled-components';
 import Exchanger from './components/Exchanger';
@@ -7,6 +7,7 @@ import ToastMessage from 'components/ToastMessage';
 import { RootState } from 'redux/store';
 import { updateTransaction } from 'redux/walletSlice';
 import { Title1 } from 'styles/typography';
+import { mediaQuery } from 'theme/breakpoints';
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,6 +26,10 @@ const HStack = styled.div`
   justify-content: center;
   width: 100%;
   gap: 18px;
+
+  ${mediaQuery.md} {
+    flex-direction: column;
+  }
 `;
 
 const ExchangePage = () => {
