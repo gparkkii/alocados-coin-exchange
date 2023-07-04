@@ -6,7 +6,7 @@ import { COIN } from 'constants/Coin';
 import { Body2Bold, Caption1 } from 'styles/typography';
 import { formatHistoryAsset, formatDate } from 'utils/stringParser';
 
-const BarWrapper = styled.div`
+export const BarWrapper = styled.div`
   ${({ theme }) => theme.backgroundStyle.shade100};
   display: flex;
   flex-direction: row;
